@@ -33,6 +33,34 @@ class FortuneCookieJar:
 
         return self.fortune_slips[chosen_index]
 
+    def distribute_session(self):
+        turn = 1
+
+        while True:
+            user_input = input(
+                f"Turn {turn} - Enter a name (or a comma-separated list), or type 'list' or 'Done': "
+            )
+
+            if user_input == "Done":
+                print("Goodbye! See you soon.")
+                break
+            elif user_input == "list":
+                for i in range(len(self.name_roster)):
+                    name = self.name_roster[i]
+                    fortune = self.fortune_slips[self.dealt_indices[i]]
+                    print(f"{name}: {fortune}")
+            else:
+                names = []
+
+                for name in user_input.split(","):
+                    stripped = name.strip()
+                    names.append(stripped)
+
+                for name in names:
+                    print(self.assign_fortune(name))
+
+            turn += 1
+
 
 def main():
     fortunes = [
@@ -45,8 +73,7 @@ def main():
     ]
 
     jar = FortuneCookieJar(fortunes)
-    print(jar.assign_fortune("bob"))
-    print(jar.assign_fortune("bob"))
+    jar.distribute_session()
 
 
 main()
